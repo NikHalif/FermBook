@@ -10,6 +10,8 @@ using System.Threading;
 using System.Diagnostics;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Runtime.InteropServices;
+using System.Net;
 
 namespace FermBook
 {
@@ -18,62 +20,92 @@ namespace FermBook
     /// </summary>
     public partial class MainWindow : Window
     {
+        private static bool CheckForInternetConnection()
+        {
+            try
+            {
+                using (var client = new WebClient())
+                using (client.OpenRead("http://google.com/generate_204"))
+                    return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public MainWindow()
         {
+
             InitializeComponent();
             try
             {
-                if (Directory.Exists("token"))
+                if (CheckForInternetConnection())
                 {
-                    AppFuncG.Auth();
+                    if (Directory.Exists("token"))
+                    {
+                        AppFuncG.Auth();
+                        AppFuncG.LoadPersone();
+                        EnterActive.Content = $"{AppFuncG.People.Names[0].DisplayName}";
+                        EnterActive.Visibility = Visibility.Visible;
 
-                    Google.Apis.PeopleService.v1.Data.Person person = Oauth2Authentication.GetPerson(AppFuncG.PService, "nicknames", "names", "photos");
-                    EnterActive.Visibility = Visibility.Visible;
+                        ImageBrush Brush = new ImageBrush(new BitmapImage(
+                            new Uri(AppFuncG.People.Photos[0].Url)));
 
-                    ImageBrush Brush = new ImageBrush(new BitmapImage(
-                        new Uri(person.Photos[0].Url)));
-
-                    EnterActive.Background = Brush;
+                        EnterActive.Background = Brush;
+                    }
                 }
+                else
+                {
+                    Mes.View("Доступ к интернету не найден.\nРезервное копирование недоступно.", "Внимание!", MessageBoxButton.OK, MessageBoxImage.Information);
+                    EnterGoogle.Visibility = Visibility.Hidden;
+                    EnterActive.Visibility = Visibility.Hidden;
+                }
+                
             }
             catch(Exception e)
             {
-                Mes.View(e.Message);
+                Mes.View(e.Message, e.Source, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             
         }
 
         private void EnterGoogle_Click(object sender, RoutedEventArgs e)
         {
+            AllGrid.IsEnabled = false;
             try
             {
-                if (Directory.Exists("token"))  Directory.Delete("token", true);
+                if (Directory.Exists("token")) Directory.Delete("token", true);
                 AppFuncG.Auth();
                 AppFuncG.LoadPersone();
                 ActiveProgram();
             }
             catch (Exception ex)
             {
+                AllGrid.IsEnabled = true;
                 Mes.View(ex.Message);
             }
         }
 
         private void EnterOffline_Click(object sender, RoutedEventArgs e)
         {
+            AllGrid.IsEnabled = false;
             AppFuncG.IsOffline = true;
-            ActiveProgram();
+            WindowProgram window = new WindowProgram();
+            window.Show();
+            this.Close();
         }
 
         private void EnterActive_Click(object sender, RoutedEventArgs e)
         {
-            AppFuncG.LoadPersone();
+            AllGrid.IsEnabled = false;
             ActiveProgram();
         }
 
         private void ActiveProgram()
         {
-            WindowProgram window = new WindowProgram();
-            window.Show();
+            var win = new WindowLoad();
+            win.Show();
             this.Close();
         }
     }

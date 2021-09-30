@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:FermBook"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="FermBook.App"
-             StartupUri="MainWindow.xaml">
+             StartupUri="MainWindow.xaml" Exit="Application_Exit">
     <Application.Resources>
 
         <ResourceDictionary>
@@ -88,6 +88,29 @@
                     </Grid>
                 </Grid>
             </ControlTemplate>
+            <Style x:Key="FocusVisual">
+                <Setter Property="Control.Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <LinearGradientBrush x:Key="TabItem.Static.Background" EndPoint="0,1" StartPoint="0,0">
+                <GradientStop Color="#F0F0F0" Offset="0.0"/>
+                <GradientStop Color="#E5E5E5" Offset="1.0"/>
+            </LinearGradientBrush>
+            <SolidColorBrush x:Key="TabItem.Static.Border" Color="#ACACAC"/>
+            <LinearGradientBrush x:Key="TabItem.MouseOver.Background" EndPoint="0,1" StartPoint="0,0">
+                <GradientStop Color="#ECF4FC" Offset="0.0"/>
+                <GradientStop Color="#DCECFC" Offset="1.0"/>
+            </LinearGradientBrush>
+            <SolidColorBrush x:Key="TabItem.MouseOver.Border" Color="#7EB4EA"/>
+            <SolidColorBrush x:Key="TabItem.Disabled.Background" Color="#F0F0F0"/>
+            <SolidColorBrush x:Key="TabItem.Disabled.Border" Color="#D9D9D9"/>
+            <SolidColorBrush x:Key="TabItem.Selected.Border" Color="#ACACAC"/>
+            <SolidColorBrush x:Key="TabItem.Selected.Background" Color="#FFFFFF"/>
         </ResourceDictionary>
 
     </Application.Resources>

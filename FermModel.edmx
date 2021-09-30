@@ -1,0 +1,312 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DatabaseSQLModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="calve">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_cow_mam" Type="int" Nullable="false" />
+          <Property Name="Id_cow_children" Type="int" />
+          <Property Name="data" Type="date" />
+          <Property Name="comment" Type="nvarchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <EntityType Name="cows">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="status" Type="int" />
+          <Property Name="birthday" Type="date" />
+          <Property Name="gender" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="disease">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_cow" Type="int" Nullable="false" />
+          <Property Name="date" Type="date" />
+          <Property Name="comment" Type="nvarchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <EntityType Name="insemination">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_cow" Type="int" Nullable="false" />
+          <Property Name="data" Type="date" />
+          <Property Name="comment" Type="nvarchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_calve_ToCowchildren">
+          <End Role="cows" Type="Self.cows" Multiplicity="0..1" />
+          <End Role="calve" Type="Self.calve" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cows">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="calve">
+              <PropertyRef Name="Id_cow_children" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_calve_ToCowMam">
+          <End Role="cows" Type="Self.cows" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="calve" Type="Self.calve" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cows">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="calve">
+              <PropertyRef Name="Id_cow_mam" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_disease_ToCow">
+          <End Role="cows" Type="Self.cows" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="disease" Type="Self.disease" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cows">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="disease">
+              <PropertyRef Name="Id_cow" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_insemination_ToCow">
+          <End Role="cows" Type="Self.cows" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="insemination" Type="Self.insemination" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cows">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="insemination">
+              <PropertyRef Name="Id_cow" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DatabaseSQLModelStoreContainer">
+          <EntitySet Name="calve" EntityType="Self.calve" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="cows" EntityType="Self.cows" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="disease" EntityType="Self.disease" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="insemination" EntityType="Self.insemination" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_calve_ToCowchildren" Association="Self.FK_calve_ToCowchildren">
+            <End Role="cows" EntitySet="cows" />
+            <End Role="calve" EntitySet="calve" />
+          </AssociationSet>
+          <AssociationSet Name="FK_calve_ToCowMam" Association="Self.FK_calve_ToCowMam">
+            <End Role="cows" EntitySet="cows" />
+            <End Role="calve" EntitySet="calve" />
+          </AssociationSet>
+          <AssociationSet Name="FK_disease_ToCow" Association="Self.FK_disease_ToCow">
+            <End Role="cows" EntitySet="cows" />
+            <End Role="disease" EntitySet="disease" />
+          </AssociationSet>
+          <AssociationSet Name="FK_insemination_ToCow" Association="Self.FK_insemination_ToCow">
+            <End Role="cows" EntitySet="cows" />
+            <End Role="insemination" EntitySet="insemination" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DatabaseSQLModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="calve">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_cow_mam" Type="Int32" Nullable="false" />
+          <Property Name="Id_cow_children" Type="Int32" />
+          <Property Name="data" Type="DateTime" Precision="0" />
+          <Property Name="comment" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="cow_children" Relationship="Self.FK_calve_ToCowchildren" FromRole="calve" ToRole="cows" />
+          <NavigationProperty Name="cow_mam" Relationship="Self.FK_calve_ToCowMam" FromRole="calve" ToRole="cows" />
+        </EntityType>
+        <EntityType Name="cows">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="birthday" Type="DateTime" Precision="0" />
+          <Property Name="gender" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="calve_children" Relationship="Self.FK_calve_ToCowchildren" FromRole="cows" ToRole="calve" />
+          <NavigationProperty Name="calve" Relationship="Self.FK_calve_ToCowMam" FromRole="cows" ToRole="calve" />
+          <NavigationProperty Name="disease" Relationship="Self.FK_disease_ToCow" FromRole="cows" ToRole="disease" />
+          <NavigationProperty Name="insemination" Relationship="Self.FK_insemination_ToCow" FromRole="cows" ToRole="insemination" />
+          <Property Name="status" Type="Int32" />
+        </EntityType>
+        <EntityType Name="disease">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_cow" Type="Int32" Nullable="false" />
+          <Property Name="date" Type="DateTime" Precision="0" />
+          <Property Name="comment" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="cows" Relationship="Self.FK_disease_ToCow" FromRole="disease" ToRole="cows" />
+        </EntityType>
+        <EntityType Name="insemination">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_cow" Type="Int32" Nullable="false" />
+          <Property Name="data" Type="DateTime" Precision="0" />
+          <Property Name="comment" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="cows" Relationship="Self.FK_insemination_ToCow" FromRole="insemination" ToRole="cows" />
+        </EntityType>
+        <Association Name="FK_calve_ToCowchildren">
+          <End Role="cows" Type="Self.cows" Multiplicity="0..1" />
+          <End Role="calve" Type="Self.calve" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cows">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="calve">
+              <PropertyRef Name="Id_cow_children" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_calve_ToCowMam">
+          <End Role="cows" Type="Self.cows" Multiplicity="1" />
+          <End Role="calve" Type="Self.calve" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cows">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="calve">
+              <PropertyRef Name="Id_cow_mam" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_disease_ToCow">
+          <End Role="cows" Type="Self.cows" Multiplicity="1" />
+          <End Role="disease" Type="Self.disease" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cows">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="disease">
+              <PropertyRef Name="Id_cow" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_insemination_ToCow">
+          <End Role="cows" Type="Self.cows" Multiplicity="1" />
+          <End Role="insemination" Type="Self.insemination" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cows">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="insemination">
+              <PropertyRef Name="Id_cow" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DatabaseSQLEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="calve" EntityType="Self.calve" />
+          <EntitySet Name="cows" EntityType="Self.cows" />
+          <EntitySet Name="disease" EntityType="Self.disease" />
+          <EntitySet Name="insemination" EntityType="Self.insemination" />
+          <AssociationSet Name="FK_calve_ToCowchildren" Association="Self.FK_calve_ToCowchildren">
+            <End Role="cows" EntitySet="cows" />
+            <End Role="calve" EntitySet="calve" />
+          </AssociationSet>
+          <AssociationSet Name="FK_calve_ToCowMam" Association="Self.FK_calve_ToCowMam">
+            <End Role="cows" EntitySet="cows" />
+            <End Role="calve" EntitySet="calve" />
+          </AssociationSet>
+          <AssociationSet Name="FK_disease_ToCow" Association="Self.FK_disease_ToCow">
+            <End Role="cows" EntitySet="cows" />
+            <End Role="disease" EntitySet="disease" />
+          </AssociationSet>
+          <AssociationSet Name="FK_insemination_ToCow" Association="Self.FK_insemination_ToCow">
+            <End Role="cows" EntitySet="cows" />
+            <End Role="insemination" EntitySet="insemination" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DatabaseSQLModelStoreContainer" CdmEntityContainer="DatabaseSQLEntities">
+    <EntitySetMapping Name="calve">
+      <EntityTypeMapping TypeName="IsTypeOf(DatabaseSQLModel.calve)">
+        <MappingFragment StoreEntitySet="calve">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Id_cow_mam" ColumnName="Id_cow_mam" />
+          <ScalarProperty Name="Id_cow_children" ColumnName="Id_cow_children" />
+          <ScalarProperty Name="data" ColumnName="data" />
+          <ScalarProperty Name="comment" ColumnName="comment" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="cows">
+      <EntityTypeMapping TypeName="IsTypeOf(DatabaseSQLModel.cows)">
+        <MappingFragment StoreEntitySet="cows">
+          <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="birthday" ColumnName="birthday" />
+          <ScalarProperty Name="gender" ColumnName="gender" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="disease">
+      <EntityTypeMapping TypeName="IsTypeOf(DatabaseSQLModel.disease)">
+        <MappingFragment StoreEntitySet="disease">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Id_cow" ColumnName="Id_cow" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="comment" ColumnName="comment" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="insemination">
+      <EntityTypeMapping TypeName="IsTypeOf(DatabaseSQLModel.insemination)">
+        <MappingFragment StoreEntitySet="insemination">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Id_cow" ColumnName="Id_cow" />
+          <ScalarProperty Name="data" ColumnName="data" />
+          <ScalarProperty Name="comment" ColumnName="comment" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

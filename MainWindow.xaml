@@ -6,22 +6,25 @@
         xmlns:local="clr-namespace:FermBook"
         mc:Ignorable="d"
         Title="Вход" Height="320" Width="400" MinWidth="400" MinHeight="320" MaxHeight="320" MaxWidth="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Icon="icon.png">
-    <Grid>
-        <Button x:Name="EnterGoogle" Content="Войти в Google" Height="49" Margin="50,110,50,0" VerticalAlignment="Top" Template="{DynamicResource ButtonImgStyleG}" Click="EnterGoogle_Click">
+    <Grid x:Name="AllGrid">
+        <Rectangle Fill="White" Margin="10,112,10,10" Stroke="Black"/>
+
+        <Button x:Name="EnterGoogle" Content="Войти в Google" Height="49" Margin="50,205,50,0" VerticalAlignment="Top" Template="{DynamicResource ButtonImgStyleG}" Click="EnterGoogle_Click">
             <Button.Background>
                 <ImageBrush ImageSource="google.png"/>
             </Button.Background>
         </Button>
-        <Button x:Name="EnterActive" Content="Войти как {... ...}" Height="49" Margin="50,40,50,0" VerticalAlignment="Top" Template="{DynamicResource ButtonImgStyleG}" Click="EnterActive_Click" Visibility="Hidden">
+        <Button x:Name="EnterActive" Content="Войти как {... ...}" Height="49" Margin="50,139,50,0" VerticalAlignment="Top" Template="{DynamicResource ButtonImgStyleG}" Click="EnterActive_Click" Visibility="Hidden">
             <Button.Background>
                 <ImageBrush/>
             </Button.Background>
         </Button>
-        <Button x:Name="EnterOffline" Content="Offline" Height="49" Margin="50,190,50,0" VerticalAlignment="Top" Template="{DynamicResource ButtonImgStyleG}" Click="EnterOffline_Click">
+        <Button x:Name="EnterOffline" Content="Запустить программу" Height="49" Margin="50,23,50,0" VerticalAlignment="Top" Template="{DynamicResource ButtonImgStyleG}" Click="EnterOffline_Click">
             <Button.Background>
                 <ImageBrush ImageSource="noninet.png"/>
             </Button.Background>
         </Button>
+        <Label Content="Резервное копирование" HorizontalAlignment="Center" Margin="0,98,0,0" VerticalAlignment="Top" Background="White"/>
 
     </Grid>
 </Window>

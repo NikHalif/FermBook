@@ -65,7 +65,7 @@ namespace FermBook
             try
             {
                 IUploadProgress result;
-                using (FileStream fileW = File.OpenRead(fileName))
+                using (FileStream fileW = File.Open(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
                     var files = GetFile(service, $"name = '{fileName}' and 'appDataFolder' in parents");
                     if (files != null && files.Count > 0) result = service.Files.Update(file, files[0].Id, fileW, "").Upload();

@@ -15,6 +15,7 @@ namespace FermBook
 {
     public static class Oauth2Authentication
     {
+        public static CancellationTokenSource OauthCT = new CancellationTokenSource();
         /// <summary>
         /// Авторизация в Google Oauth2
         /// </summary>
@@ -36,7 +37,7 @@ namespace FermBook
                         GoogleClientSecrets.FromStream(stream).Secrets,
                         Scopes,
                         "user",
-                        CancellationToken.None,
+                        OauthCT.Token,
                         new FileDataStore(credPath, true)).Result;
                 }
 
